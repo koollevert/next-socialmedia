@@ -17,8 +17,8 @@ export default function TopicCreateForm(){
                 <form action={createTopic}>
                     <div className='flex flex-col gap-4 p-4 w-80'>
                         <h3 className='text-lg'>Create a Topic</h3>
-                        <Input label='Name' labelPlacement="outside" placeholder="Name" />
-                        <Textarea label='Description' labelPlacement="outside" placeholder="Describe you topic" />
+                        <Input name="name" label='Name' labelPlacement="outside" placeholder="Name" />
+                        <Textarea name="description" label='Description' labelPlacement="outside" placeholder="Describe you topic" />
                         <Button type='submit'>Submit</Button>
 
                     </div>
