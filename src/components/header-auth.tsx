@@ -1,11 +1,8 @@
+'use client'
+
 import { signIn, signOut } from '@/actions';
-import { auth } from '@/auth';
 import {
-    Navbar,
-    NavbarBrand,
-    NavbarContent,
     NavbarItem,
-    Input,
     Button,
     Avatar,
     Popover,
@@ -13,7 +10,6 @@ import {
     PopoverTrigger
 } from '@nextui-org/react';
 import { useSession } from 'next-auth/react';
-import Link from 'next/link';
 
 export default function HeaderAuth(){
     const session=useSession();
