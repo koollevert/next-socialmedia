@@ -1,6 +1,12 @@
 'use server';
+
+import type { Topic } from '@prisma/client'
 import { auth } from '@/auth';
 import {z} from 'zod';
+import { db } from '@/app/db';
+import { redirect } from 'next/navigation';
+import paths from '@/paths';
+import { revalidatePath } from 'next/cache';
 
 const createTopicSchema=z.object({
     name:z.string().min(3).regex(/[a-z-]/, {message: 'Must be lowercase letters or dashes without spaces'}),
@@ -36,9 +42,34 @@ export async function createTopic( formState: createTopicState, FormData: FormDa
         }
     }
 
-    return {
-        errors: {}
+    let topic: Topic
+    try {
+        topic=await db.topic.create({
+            data: {
+                slug: result.data.name,
+                description: result.data.description
+            }
+        })
+    } catch (err: unknown) {
+        if(err instanceof Error){
+            return{
+                errors: {
+                    _form: [err.message]
+                }
+            }
+        }else{
+            return {
+                errors: {
+                    _form: ['Something went wrong']
+                }
+            }
+        }
+        
     }
-    //revalidate the homepage
+
+    revalidatePath('/')
+
+    redirect(paths.topicShow(topic.slug));
+
 
 }
