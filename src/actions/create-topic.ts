@@ -6,14 +6,27 @@ const createTopicSchema=z.object({
     description: z.string().min(10),
 });
 
-export async function createTopic(FormData: FormData){
+interface createTopicState{
+    errors:{
+        name?: string[];
+        description?: string[];
+    }
+}
+
+export async function createTopic( formState: createTopicState, FormData: FormData): Promise<createTopicState>{
     const result=createTopicSchema.safeParse({
         name: FormData.get('name'),
         description: FormData.get('description')
     })
 
     if(!result.success){
-        console.log(result.error.flatten().fieldErrors);
+        return{
+            errors: (result.error.flatten().fieldErrors)
+        }
+    }
+
+    return {
+        errors: {}
     }
     //revalidate the homepage
 
