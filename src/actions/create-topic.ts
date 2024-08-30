@@ -2,11 +2,12 @@
 
 import type { Topic } from '@prisma/client'
 import { auth } from '@/auth';
-import {z} from 'zod';
+import {promise, z} from 'zod';
 import { db } from '@/app/db';
 import { redirect } from 'next/navigation';
 import paths from '@/paths';
 import { revalidatePath } from 'next/cache';
+import { resolve } from 'path';
 
 const createTopicSchema=z.object({
     name:z.string().min(3).regex(/[a-z-]/, {message: 'Must be lowercase letters or dashes without spaces'}),
@@ -22,6 +23,7 @@ interface createTopicState{
 }
 
 export async function createTopic( formState: createTopicState, FormData: FormData): Promise<createTopicState>{
+    // await new Promise((resolve)=>setTimeout(resolve, 1000));
     const result=createTopicSchema.safeParse({
         name: FormData.get('name'),
         description: FormData.get('description')
