@@ -7,7 +7,6 @@ import { db } from '@/app/db';
 import { redirect } from 'next/navigation';
 import paths from '@/paths';
 import { revalidatePath } from 'next/cache';
-import { resolve } from 'path';
 
 const createTopicSchema=z.object({
     name:z.string().min(3).regex(/[a-z-]/, {message: 'Must be lowercase letters or dashes without spaces'}),
