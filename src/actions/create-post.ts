@@ -1,4 +1,5 @@
 'use server';
+import { auth } from "@/auth";
 import type { Post } from "@prisma/client";
 import { z } from "zod";
 const createPostSchema=z.object({
@@ -21,6 +22,15 @@ export async function createPost(formState:CreatePostFormState, FormData:FormDat
     if(!result.success){
         return{
             errors: result.error.flatten().fieldErrors
+        }
+    }
+
+    const session = await auth();
+    if(!session || !session.user){
+        return {
+            errors: {
+                _form: ['You must be signed in to do Create a post'],
+            }
         }
     }
     //revalidate topic show page
