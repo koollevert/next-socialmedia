@@ -1,7 +1,6 @@
 import { db } from '@/app/db';
 import { notFound } from 'next/navigation';
 
-
 interface PostShowProps {
   postId: string;
 }

@@ -1,5 +1,6 @@
 import type { Post } from '@prisma/client';
-import { db } from '@/db';
+import { db } from '..';
+
 
 export type PostWithData = Post & {
   topic: { slug: string };
